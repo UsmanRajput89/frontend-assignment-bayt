@@ -136,50 +136,30 @@ function slider(sliderContainer) {
         }
     }
 
+    // Autoplay Function
     
-
-
-
-    // AUTO PLAYY
-
-
-
-
-    const autoplayValue = sliderContainer.getAttribute("data-autoplay");
-
-    // Convert the attribute value to a boolean
-    const shouldAutoplay = autoplayValue === "true";
-
-    // Function to start the autoplay
-    let autoplayInterval;
-    function startAutoplay() {
-        autoplayInterval = setInterval(() => {
+    function autoPlay() {
+        const autoplayValue = sliderContainer.getAttribute("data-autoplay");
+        const duration = 3000;
+        if (autoplayValue == 'true') {
+            slider = sliderContainer.children[0];
+            last = slider.lastElementChild;
+            first = slider.firstElementChild;
+    
             const activeSlide = sliderContainer.querySelector(".active");
-            const activeSlideIndex = slides.indexOf(activeSlide);
-            const nextSlideIndex = (activeSlideIndex + 1) % slides.length;
-            moveToSlide(nextSlideIndex);
-        }, 3000); // Change the delay (in milliseconds) between slides as needed
-    }
-
-    // Function to stop the autoplay
-    function stopAutoplay() {
-        clearInterval(autoplayInterval);
-    }
-
-    // Check if autoplay is enabled and start it if needed
-    if (shouldAutoplay) {
-        startAutoplay();
-    }
-
-    // Add event listener to the sliderContainer to pause autoplay on hover
-    sliderContainer.addEventListener("mouseenter", stopAutoplay);
-
-    // Add event listener to the sliderContainer to resume autoplay on mouse leave
-    sliderContainer.addEventListener("mouseleave", () => {
-        if (shouldAutoplay) {
-            startAutoplay();
+            const activeSlideIndex = Array.from(slides).indexOf(activeSlide);
+    
+            setTimeout(() => {
+                slider.insertBefore(first, last.nextSibling);
+                setActiveSlide((activeSlideIndex + 1) % slides.length);
+            }); 
+            
+            setTimeout(autoPlay, duration);
         }
-    });
+    }
+      
+    // Start the loop
+    autoPlay();
 }
 
 // Get all slider containers and apply the slider function to each
