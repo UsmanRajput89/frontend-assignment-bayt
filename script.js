@@ -140,7 +140,7 @@ function slider(sliderContainer) {
     
     function autoPlay() {
         const autoplayValue = sliderContainer.getAttribute("data-autoplay");
-        const duration = 3000;
+        const duration = 4000;
         if (autoplayValue == 'true') {
             slider = sliderContainer.children[0];
             last = slider.lastElementChild;
@@ -152,8 +152,8 @@ function slider(sliderContainer) {
             setTimeout(() => {
                 slider.insertBefore(first, last.nextSibling);
                 setActiveSlide((activeSlideIndex + 1) % slides.length);
-            }); 
-            
+            }), 500; 
+
             setTimeout(autoPlay, duration);
         }
     }
