@@ -110,6 +110,7 @@ function slider(sliderContainer) {
 
     // Function to set the active slide and corresponding dot
     function setActiveSlide(index) {
+        console.log('index:', index);
         slides.forEach((slide, slideIndex) => {
             slide.classList.toggle("active", slideIndex === index);
         });
@@ -137,27 +138,32 @@ function slider(sliderContainer) {
     }
 
     // Autoplay Function
-    
+
     function autoPlay() {
         const autoplayValue = sliderContainer.getAttribute("data-autoplay");
-        const duration = 4000;
+
+        // set duration by getting from attribute 
+        const duration = sliderContainer.getAttribute("data-duration") ?? "4000";
+
+        console.log(duration);
+
         if (autoplayValue == 'true') {
             slider = sliderContainer.children[0];
             last = slider.lastElementChild;
             first = slider.firstElementChild;
-    
+
             const activeSlide = sliderContainer.querySelector(".active");
             const activeSlideIndex = Array.from(slides).indexOf(activeSlide);
-    
+
             setTimeout(() => {
                 slider.insertBefore(first, last.nextSibling);
                 setActiveSlide((activeSlideIndex + 1) % slides.length);
-            }), 500; 
+            }), 500;
 
             setTimeout(autoPlay, duration);
         }
     }
-      
+
     // Start the loop
     autoPlay();
 }
